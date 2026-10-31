@@ -1,0 +1,11 @@
+Copyright (c) 2026 Porodica Kolasević
+
+Ovaj repozitorij sadrži izvorni kod i prateći sadržaj (tekstove, fotografije i grafiku). Licenciranje projekta je podijeljeno na sljedeći način:
+
+1. IZVORNI KOD (HTML, CSS, JavaScript) - MIT Licenca
+Dozvoljava se besplatno korištenje, kopiranje, modifikovanje, spajanje, objavljivanje i distribucija softverskog koda iz ovog repozitorija, pod uslovom da se u svim kopijama ili značajnim dijelovima softvera uključi ovo obavještenje o autorskim pravima. Kod se daje "kakav jeste", bez ikakvih garancija.
+
+2. SADRŽAJ (Fotografije, grafika, arhiva, biografski i historijski tekstovi) - Sva prava zadržana (All Rights Reserved)
+Sav tekstualni sadržaj (biografije, opisi), JSON podaci, kao i sve fotografije u folderima "image", "galerija", "assets" i "amblemi" predstavljaju privatnu arhivu i intelektualno vlasništvo porodice Kolasević. 
+
+STROGO JE ZABRANJENO neovlašteno kopiranje, preuzimanje, distribucija, mijenjanje ili korištenje bilo kojeg dijela fotografija i tekstualnog sadržaja u komercijalne ili nekomercijalne svrhe bez izričite pismene dozvole vlasnika autorskih prava.
