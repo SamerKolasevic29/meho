@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerija - Kolasević Mehmed Meho</title>
+    <script>
+    (function () {
+        var params = new URLSearchParams(window.location.search);
+        var album = params.get('album') || 'travnik';
+        var link = document.createElement('link');
+        link.setAttribute('rel', 'canonical');
+        link.setAttribute('href', 'https://meho.kolasevic.com/galerija/galerija.html?album=' + album);
+        document.head.appendChild(link);
+    })();
+</script>
+    <link rel="stylesheet" href="gallery.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="gallery-nav">
+    <div class="gallery-nav-inner">
+        <a href="javascript:history.back()" class="gallery-back-btn">Back</a>
+        <span id="naslov-albuma">Učitavanje...</span>
+    </div>
+</nav>
+
+<div class="gallery-container">
+    <div id="paginacija-vrh" class="pagination"></div>
+
+    <div id="gallery-grid" class="gallery-grid"></div>
+
+    <div id="paginacija-dno" class="pagination"></div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Sva prava zadržana. &nbsp; | &nbsp; <a href="mailto:kolasevic@gmail.com">Kontakt</a></p>
+        </div>
+    </footer>
+</div>
+
+<div id="lightbox" class="lightbox">
+    <span class="lightbox-close" onclick="closeImage()">&times;</span>
+    <span class="lightbox-nav lightbox-prev" onclick="previousImage()">&lt;</span>
+    <div class="lightbox-frame">
+    <img id="lightbox-img" class="lightbox-content" src="" alt="Zoomirana slika">
+</div>
+    <span class="lightbox-nav lightbox-next" onclick="nextImage()">&gt;</span>
+</div>
+
+<script>
+    const IMAGES_PER_PAGE = 40;
+    let allImagesArray = [];
+    let currentPage = 1;
+    let albumName = "";
+    let currentImageIndex = -1;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    albumName = urlParams.get('album') || 'travnik';
+
+    function getThumbPath(basePath) {
+        const lastSlash = basePath.lastIndexOf('/');
+        const parentPath = basePath.substring(0, lastSlash);
+        const filename = basePath.substring(lastSlash + 1);
+        const parentSlash = parentPath.lastIndexOf('/');
+        const parentFolder = parentPath.substring(parentSlash + 1);
+        return `thumbnails/${parentFolder}-t/${filename}_thumb`;
+    }
+
+fetch('slike.json')
+    .then(response => response.json())
+    .then(data => {
+if (data[albumName]) {
+            const albumInfo = data[albumName];
+
+            const albumTitles = {
+                'travnik': 'Stare slike Travnika',
+                'auto-moto': 'Auto-Moto društvo',
+                'porodica': 'Porodica',
+                'planinarstvo': 'Planinarstvo',
+                'vatrogastvo': 'Vatrogastvo',
+                'posljednji-ispracaj': 'Posljednji ispraćaj',
+                'novine': 'Novine',
+                'p-auto-moto': 'Auto-Moto',
+                'p-planinarstvo': 'Planinarstvo',
+                'p-vatrogastvo': 'Vatrogastvo'
+            };
+
+            let title = albumTitles[albumName];
+            if (!title) {
+                title = albumName;
+                if (title.startsWith('p-')) {
+                    title = title.slice(2);
+                }
+                title = title.charAt(0).toUpperCase() + title.slice(1);
+            }
+
+            document.getElementById('naslov-albuma').innerText = title;
+
+            const customRanges = {
+                'planinarstvo': [[252, 765], [1, 251]],
+                'vatrogastvo': [[25, 66], [1, 24]]
+            };
+
+            if (customRanges[albumName]) {
+                customRanges[albumName].forEach(([from, to]) => {
+                    for (let i = from; i <= to; i++) {
+                        allImagesArray.push(`${albumInfo.folder}${i}`);
+                    }
+                });
+            } else {
+                for (let i = 1; i <= albumInfo.ukupno; i++) {
+                    allImagesArray.push(`${albumInfo.folder}${i}`);
+                }
+            }
+
+            showPage(1);
+        } else {
+            document.getElementById('naslov-albuma').innerText = "Album nije pronađen u JSON-u.";
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById('naslov-albuma').innerText = "Greška sa učitavanjem JSON baze slika.";
+    });
+
+    function tryLoadImage(basePath, imgElement, callback) {
+        const extensions = ['.jpg', '.JPG', '.png', '.PNG'];
+        let currentIndex = 0;
+
+        function attempt() {
+            if (currentIndex >= extensions.length) {
+                imgElement.src = 'unknown.PNG';
+                if (callback) callback(false);
+                return;
+            }
+
+            const testImg = new Image();
+            const currentSrc = basePath + extensions[currentIndex];
+
+            testImg.onload = function() {
+                imgElement.src = currentSrc;
+                if (callback) callback(true, currentSrc);
+            };
+
+            testImg.onerror = function() {
+                currentIndex++;
+                attempt();
+            };
+
+            testImg.src = currentSrc;
+        }
+
+        attempt();
+    }
+
+    function tryLoadThumbnail(basePath, imgElement, callback) {
+        const thumbPath = getThumbPath(basePath);
+        const testImg = new Image();
+
+        testImg.onload = function() {
+            imgElement.src = thumbPath + '.jpg';
+            if (callback) callback(true, thumbPath + '.jpg');
+        };
+
+        testImg.onerror = function() {
+            tryLoadImage(basePath, imgElement, callback);
+        };
+
+        testImg.src = thumbPath + '.jpg';
+    }
+
+    function showPage(page) {
+        currentPage = page;
+        const grid = document.getElementById('gallery-grid');
+        grid.innerHTML = "";
+
+        const start = (page - 1) * IMAGES_PER_PAGE;
+        const end = start + IMAGES_PER_PAGE;
+        const imagesToShow = allImagesArray.slice(start, end);
+
+        imagesToShow.forEach((basePath, localIndex) => {
+            const img = document.createElement('img');
+            img.src = 'unknown.PNG';
+            img.className = 'gallery-item';
+            img.alt = '';
+            img.onclick = function () {
+                openImage(start + localIndex);
+            };
+            grid.appendChild(img);
+
+            tryLoadThumbnail(basePath, img);
+        });
+
+        generatePagination();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function generatePagination() {
+        const totalPages = Math.ceil(allImagesArray.length / IMAGES_PER_PAGE);
+        const htmlTop = document.getElementById('paginacija-vrh');
+        const htmlBottom = document.getElementById('paginacija-dno');
+
+        if (totalPages <= 1) {
+            htmlTop.innerHTML = "";
+            htmlBottom.innerHTML = "";
+            return;
+        }
+
+        let paginationCode = "";
+
+        if (currentPage > 1) {
+            paginationCode += `<a onclick="showPage(${currentPage - 1})">&laquo;</a>`;
+        } else {
+            paginationCode += `<span class="disabled">&laquo;</span>`;
+        }
+
+        let startPage = currentPage - 1;
+        if (startPage < 1) startPage = 1;
+        if (startPage + 3 > totalPages) startPage = totalPages - 3;
+        if (startPage < 1) startPage = 1;
+
+        let endPage = Math.min(startPage + 3, totalPages);
+
+        for (let i = startPage; i <= endPage; i++) {
+            if (i === currentPage) {
+                paginationCode += `<span class="active-page">${i}</span>`;
+            } else {
+                paginationCode += `<a onclick="showPage(${i})">${i}</a>`;
+            }
+        }
+
+        if (currentPage < totalPages) {
+            paginationCode += `<a onclick="showPage(${currentPage + 1})">&raquo;</a>`;
+        } else {
+            paginationCode += `<span class="disabled">&raquo;</span>`;
+        }
+
+        htmlTop.innerHTML = paginationCode;
+        htmlBottom.innerHTML = paginationCode;
+    }
+
+    function openImage(globalIndex) {
+        currentImageIndex = globalIndex;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        lightboxImg.alt = '';
+        lightboxImg.src = 'unknown.PNG';
+        lightbox.style.display = 'flex';
+        document.body.classList.add('lightbox-open');
+
+        tryLoadImage(allImagesArray[currentImageIndex], lightboxImg);
+        refreshLightboxNav();
+    }
+
+    function closeImage() {
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.classList.remove('lightbox-open');
+    }
+
+    function previousImage() {
+        if (currentImageIndex > 0) {
+            currentImageIndex--;
+            const lightboxImg = document.getElementById('lightbox-img');
+            tryLoadImage(allImagesArray[currentImageIndex], lightboxImg);
+            refreshLightboxNav();
+        }
+    }
+
+    function nextImage() {
+        if (currentImageIndex < allImagesArray.length - 1) {
+            currentImageIndex++;
+            const lightboxImg = document.getElementById('lightbox-img');
+            tryLoadImage(allImagesArray[currentImageIndex], lightboxImg);
+            refreshLightboxNav();
+        }
+    }
+
+    function refreshLightboxNav() {
+        const prevBtn = document.querySelector('.lightbox-prev');
+        const nextBtn = document.querySelector('.lightbox-next');
+
+        if (currentImageIndex <= 0) {
+            prevBtn.classList.add('nav-disabled');
+        } else {
+            prevBtn.classList.remove('nav-disabled');
+        }
+
+        if (currentImageIndex >= allImagesArray.length - 1) {
+            nextBtn.classList.add('nav-disabled');
+        } else {
+            nextBtn.classList.remove('nav-disabled');
+        }
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (document.getElementById('lightbox').style.display === 'flex') {
+            if (e.key === 'ArrowLeft') {
+                previousImage();
+            } else if (e.key === 'ArrowRight') {
+                nextImage();
+            } else if (e.key === 'Escape') {
+                closeImage();
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

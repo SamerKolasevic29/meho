@@ -1,0 +1,42 @@
+{
+  "travnik": {
+    "ukupno": 803,
+    "folder": "slike/travnik/travnik"
+  },
+  "auto-moto": {
+    "ukupno": 33,
+    "folder": "slike/auto-moto/auto-moto"
+  },
+  "porodica": {
+    "ukupno": 212,
+    "folder": "slike/porodica/porodica"
+  },
+  "planinarstvo": {
+    "ukupno": 765,
+    "folder": "slike/planinarstvo/planinarstvo"
+  },
+  "vatrogastvo": {
+    "ukupno": 64,
+    "folder": "slike/vatrogastvo/vatrogastvo"
+  },
+  "posljednji-ispracaj": {
+    "ukupno": 31,
+    "folder": "slike/posljednji-ispracaj/posljednji-ispracaj"
+  },
+  "novine":{
+    "ukupno":29,
+    "folder": "slike/novine/novine"
+  },
+  "p-auto-moto":{
+    "ukupno":8,
+    "folder":"slike/priznanja/auto-moto"
+  },
+  "p-planinarstvo":{
+    "ukupno":44,
+    "folder":"slike/priznanja/planinarstvo"
+  },
+  "p-vatrogastvo":{
+    "ukupno":9,
+    "folder":"slike/priznanja/vatrogarstvo"
+  }
+}

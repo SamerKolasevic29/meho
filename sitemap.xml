@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Pocetna stranica -->
+  <url>
+    <loc>https://meho.kolasevic.com/</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.00</priority>
+  </url>
+
+  <!-- Album stranice -->
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=porodica</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=planinarstvo</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=vatrogastvo</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=auto-moto</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=posljednji-ispracaj</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=novine</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=travnik</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>  
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=p-planinarstvo</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=p-vatrogastvo</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/galerija/galerija.html?album=p-auto-moto</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Ostale stranice -->
+  <url>
+    <loc>https://meho.kolasevic.com/nagrade.html</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/vrhovi.html</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/transverzale.html</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/video.html</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://meho.kolasevic.com/historija.html</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+</urlset>
